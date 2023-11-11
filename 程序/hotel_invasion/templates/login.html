@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="robots" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Innap : Hotel Admin Template">
+    <title>酒店客房入侵</title>
+    <link href="../static/css/style.css" rel="stylesheet">
+
+</head>
+
+<body class="vh-100">
+<div class="authincation h-100">
+    <div class="container h-100">
+        <div class="row justify-content-center h-100 align-items-center">
+            <div class="col-md-6">
+                <div class="authincation-content">
+                    <div class="row no-gutters">
+                        <div class="col-xl-12">
+                            <div class="auth-form">
+                                <div class="text-center mb-3">
+                                    <a href="index.html"><img
+                                            src="https://www.17sucai.com/preview/1097306/2021-07-20/xhtml/images/logo-full.png"
+                                            alt=""></a>
+                                </div>
+                                <h4 class="text-center mb-4">酒店客房入侵系统</h4>
+                                <form>
+                                    <div class="mb-3">
+                                        <label class="mb-1"><strong>账户</strong></label>
+                                        <input type="text" class="form-control" id="username">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="mb-1"><strong>密码</strong></label>
+                                        <input type="password" class="form-control" id="password">
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-primary btn-block" id="login">登录</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../static/js/jquery.min.js"></script>
+</body>
+</html>
+<script>
+      $(function () {
+          $("#login").click(function () {
+              var userName = $("#username").val();
+              var password = $("#password").val();
+
+              if ("" == userName || undefined == userName) {
+                  alert("用户名不能为空");
+                  return
+              }
+              if ("" == password || undefined == password) {
+                  alert("密码不能为空");
+                  return
+              }
+              window.localStorage.setItem('userName', userName);
+              window.localStorage.setItem('password', password);
+              console.log(userName, password)
+              $.ajax({
+                  type: 'GET',
+                  url: "/user/login_check",
+                  dataType: 'json', //服务端返回json格式的数据
+                  data: {'username': userName, 'password': password},
+                  contentType: "application/json; charset=utf-8",
+                  success: function (data) { // 这里的data就是返回的json格式的数据
+                      window.location.href = "/index"
+                  },
+                  error: function (xhr, type) {
+                      if (xhr.status == 401) {
+                          alert('用户名或者密码不正确')
+                      }
+                  }
+              });
+
+          })
+      })
+</script>

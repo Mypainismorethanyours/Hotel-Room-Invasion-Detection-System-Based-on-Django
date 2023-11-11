@@ -1,0 +1,310 @@
+{% extends 'base.html' %}
+{% block style %}
+        <link href="../static/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
+
+        <link href="../static/css/daterangepicker.css" rel="stylesheet">
+  <link rel="stylesheet" href="../static/layui/css/layui.css"/>
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/layui/layui.js"></script>
+
+
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-12">
+
+                <div class="tab-content">
+                    <div class="tab-pane active show" id="All">
+                        <div class="table-responsive">
+                            <table class="table card-table  display mb-4 dataTablesCard booking-table room-list-tbl table-responsive-lg "
+                                   id="guestTable-all">
+                                <thead>
+                                <tr>
+                                    <th class="bg-none">
+                                        <div class="form-check style-1">
+                                            <input class="form-check-input" type="checkbox" value="" id="checkAll">
+                                        </div>
+                                    </th>
+                                    <th>房间名</th>
+                                    <th>客房类型</th>
+                                    <th>客房楼层</th>
+                                    <th>客房设施</th>
+                                    <th>客房状态</th>
+                                    <th class="bg-none"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for room in rooms %}
+                                    {% if room.status == '入住' %}
+                                        <tr style="border: 2px solid red;padding-top: 8px">
+                                        <td>
+                                            <div class="form-check style-1">
+                                                <input class="form-check-input" type="checkbox" value="">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="guest-bx">
+                                                <img class="me-3" src="{{ room.image }}" alt="">
+                                                <div>
+                                                    <h4 class="mb-0 mt-1"><a class="text-black"
+                                                                             href="guest-detail.html">{{ room.name }}</a>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <span class="fs-16">{{ room.room_type }}</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <span class="fs-16">{{ room.floor }}/12</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+
+                                                <span class="fs-16">{{ room.description }}</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <span class="d-block">{{ room.status }}</span>
+                                                <span class="fs-14">{{ room.date }}</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown dropstart">
+                                                <a href="javascript:void(0);" class="btn-link" data-bs-toggle="dropdown"
+                                                   aria-expanded="false">
+                                                    <svg width="24" height="24" viewbox="0 0 24 24" fill="none"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12Z"
+                                                              stroke="#262626" stroke-width="2" stroke-linecap="round"
+                                                              stroke-linejoin="round"></path>
+                                                        <path d="M18 12C18 12.5523 18.4477 13 19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12Z"
+                                                              stroke="#262626" stroke-width="2" stroke-linecap="round"
+                                                              stroke-linejoin="round"></path>
+                                                        <path d="M4 12C4 12.5523 4.44772 13 5 13C5.55228 13 6 12.5523 6 12C6 11.4477 5.55228 11 5 11C4.44772 11 4 11.4477 4 12Z"
+                                                              stroke="#262626" stroke-width="2" stroke-linecap="round"
+                                                              stroke-linejoin="round"></path>
+                                                    </svg>
+                                                </a>
+                                                <div class="dropdown-menu">
+                                                    {% if room.status == '入住' %}
+                                                        <a class="dropdown-item detection" href="javascript:void(0);" room_id="{{ room.name }}">刷脸开门</a>
+                                                        <a class="dropdown-item delete" href="javascript:void(0);  "room_id="{{ room.name }}">退房</a>
+
+                                                    {% else %}
+                                                        <a class="dropdown-item blrz" href="javascript:void(0);"
+                                                           data-bs-toggle="modal" data-bs-target="#basicModal" room_id="{{ room.name }}"> 办理入住</a>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% else %}
+                                    <tr style="border: 2px solid green;padding-top: 8px">
+                                        <td>
+                                            <div class="form-check style-1">
+                                                <input class="form-check-input" type="checkbox" value="">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="guest-bx">
+                                                <img class="me-3" src="{{ room.image }}" alt="">
+                                                <div>
+                                                    <h4 class="mb-0 mt-1"><a class="text-black"
+                                                                             href="guest-detail.html">{{ room.name }}</a>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <span class="fs-16">{{ room.room_type }}</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <span class="fs-16">{{ room.floor }}/12</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+
+                                                <span class="fs-16">{{ room.description }}</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <span class="d-block">{{ room.status }}</span>
+                                                <span class="fs-14"></span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown dropstart">
+                                                <a href="javascript:void(0);" class="btn-link" data-bs-toggle="dropdown"
+                                                   aria-expanded="false">
+                                                    <svg width="24" height="24" viewbox="0 0 24 24" fill="none"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12Z"
+                                                              stroke="#262626" stroke-width="2" stroke-linecap="round"
+                                                              stroke-linejoin="round"></path>
+                                                        <path d="M18 12C18 12.5523 18.4477 13 19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12Z"
+                                                              stroke="#262626" stroke-width="2" stroke-linecap="round"
+                                                              stroke-linejoin="round"></path>
+                                                        <path d="M4 12C4 12.5523 4.44772 13 5 13C5.55228 13 6 12.5523 6 12C6 11.4477 5.55228 11 5 11C4.44772 11 4 11.4477 4 12Z"
+                                                              stroke="#262626" stroke-width="2" stroke-linecap="round"
+                                                              stroke-linejoin="round"></path>
+                                                    </svg>
+                                                </a>
+                                                <div class="dropdown-menu">
+                                                    {% if room.status == '入住' %}
+                                                        <a class="dropdown-item detection" room_id="{{ room.name }}" href="javascript:void(0);">刷脸开门</a>
+                                                        <a class="dropdown-item delete" href="javascript:void(0);  "room_id="{{ room.name }}">退房</a>
+
+                                                    {% else %}
+                                                        <a class="dropdown-item blrz" href="javascript:void(0);"
+                                                           data-bs-toggle="modal" data-bs-target="#basicModal" room_id="{{ room.name }}"> 办理入住</a>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endif %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="basicModal">
+        <div class="modal-dialog" role="document">
+        <input type="hidden" value="" id="room_id">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">办理入住</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="customer_id">顾客</label>
+                        <select class="form-control" id="customer_id">
+                            {% for i in customers %}
+                                <option value="{{ i.id }}">{{ i.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                                  <div class="form-group">
+                                            <label class="time">入住时间-退房时间</label>
+                                            <input class="form-control input-daterange-datepicker" id='time'type="text" name="daterange" value="09/01/2022 - 10/31/2022">
+                                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="ruzhu">办理入住</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+
+     <script src="../static/js/daterangepicker.js"></script>
+	<script src="../static/js/jquery.nice-select.min.js"></script>
+
+    <script src="../static/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="../static/js/bootstrap-material-datetimepicker.js"></script>
+        <script src="../static/js/picker.js"></script>
+    <script src="../static/js/picker.time.js"></script>
+
+    <script src="../static/js/picker.date.js"></script>
+    <script src="../static/js/bs-daterange-picker-init.js"></script>
+      <script src="../static/js/material-date-picker-init.js"></script>
+    <!-- Pickdate -->
+    <script src="../static/js/pickadate-init.js"></script>
+    <script>
+    $('.blrz').on('click',function (){
+        var room_id = $(this).attr('room_id')
+        console.log(room_id)
+        $('#room_id').val(room_id)
+    })
+
+    $('#ruzhu').on('click',function (){
+        var customer = $('#customer_id').val()
+        var se_time = $('#time').val()
+        var room_id = $('#room_id').val()
+        console.log(customer,se_time,room_id)
+         $.ajax({
+                  type: 'POST',
+                  url: "/ruzhu",
+                  dataType: 'json', //服务端返回json格式的数据
+                  data: {'customer_id': customer, 'time': se_time,'room_name':room_id},
+                  success: function (data) { // 这里的data就是返回的json格式的数据
+                      window.location.href = "/room_list"
+                  },
+                  error: function (xhr, type) {
+
+                      alert('人脸未录入，请先录入人脸！')
+
+                  }
+              });
+    })
+
+    $('.detection').on('click',function (){
+        var room_name = $(this).attr('room_id')
+        console.log(room_name)
+        var loading = layer.msg("正在识别人脸，请稍后...", {icon: 16, shade: [0.3, "gray"], time: false});
+         $.ajax({
+                  type: 'GET',
+                  url: "/detection",
+                  dataType: 'json', //服务端返回json格式的数据
+                  data: {'room_name':room_name},
+                  success: function (res) { // 这里的data就是返回的json格式的数据
+                      layer.close(loading)
+                      if(res.status==='success'){
+                          layer.msg(res.msg,{icon:6})
+                      }else{
+                          layer.msg(res.msg,{icon:5})
+                      }
+                  },
+                  error: function (xhr, type) {
+                      alert('识别人脸失败！')
+
+                  }
+              });
+    })
+      $('.delete').on('click',function (){
+        var room_name = $(this).attr('room_id')
+        console.log(room_name)
+         $.ajax({
+                  type: 'POST',
+                  url: "/delete_order",
+                  dataType: 'json', //服务端返回json格式的数据
+                  data: {'room_name':room_name},
+                  success: function (res) { // 这里的data就是返回的json格式的数据
+                      if(res.status==='success'){
+                          layer.msg(res.msg,{icon:6})
+                          window.location.reload();
+                      }else{
+                          layer.msg(res.msg,{icon:5})
+                      }
+                  },
+                  error: function (xhr, type) {
+                       layer.msg('退房失败！',{icon:5})
+
+                  }
+              });
+    })
+    </script>
+{% endblock %}
